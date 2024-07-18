@@ -12,7 +12,7 @@ namespace Presentation
 
         public PaymentController(TransactionContext context)
         {
-            _context = context;  // Dependency injection provides the context
+            _context = context;
         }
 
         [HttpPost]
