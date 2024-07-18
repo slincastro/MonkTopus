@@ -1,0 +1,43 @@
+{
+    "layer": 
+    [
+        {"folder": "Transactional/Domain", "project_file_name": "Domain.csproj"},
+        {"folder": "Transactional/Application", "project_file_name": "Application.csproj"},
+        {"folder": "Transactional/Infrastructure", "project_file_name": "Infrastructure.csproj"},
+        {"folder": "Transactional/Presentation", "project_file_name": "Presentation.csproj"}
+    ],
+    "root_files":
+    [
+        "README.md"
+    ],
+    "test_projects": 
+    [
+        {"folder": "TransactionalTest/ArchTests", "project_file_name": "ArchTests.csproj"},
+        {"folder": "TransactionalTest/UnitTests", "project_file_name": "UnitTests.csproj"},
+        {"folder": "TransactionalTest/AcceptanceTests", "project_file_name": "AcceptanceTests.csproj"},
+        {"folder": "TransactionalTest/PerformanceTests", "project_file_name": "PerformanceTests.csproj"}
+    ],
+    "architecture_tests":
+    [
+        {"folder": "TransactionalTest/ArchTests", "layer": "na", "test_class_name": "ArchUnitBaseTest.cs"},
+        {"folder": "TransactionalTest/ArchTests/Domain", "layer": "Domain", "test_class_name": "DomainLayerRulesTest.cs"},
+        {"folder": "TransactionalTest/ArchTests/Application", "layer": "Application", "test_class_name": "ApplicationLayerRulesTest.cs"},
+        {"folder": "TransactionalTest/ArchTests/Infrastructure", "layer": "Infrastructure", "test_class_name": "InfrastructureLayerRulesTest.cs"},
+        {"folder": "TransactionalTest/ArchTests/Presentation", "layer": "Presentation", "test_class_name": "PresentationLayerRules.cs"}
+    ],
+    "unit_tests":
+    [
+        {"folder": "TransactionalTest/UnitTests/Domain", "layer": "Domain"},
+        {"folder": "TransactionalTest/UnitTests/Application", "layer": "Application"},
+        {"folder": "TransactionalTest/UnitTests/Infrastructure", "layer": "Infrastructure"},
+        {"folder": "TransactionalTest/UnitTests/Presentation", "layer": "Presentation"}
+    ],
+    "acceptance_tests":
+    [
+        {"folder": "TransactionalTest/AcceptanceTests"}
+    ],
+    "performance_tests":
+    [
+        {"folder": "TransactionalTest/PerformanceTests"}
+    ]
+}
