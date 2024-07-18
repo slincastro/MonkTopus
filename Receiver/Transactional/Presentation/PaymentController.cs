@@ -20,14 +20,16 @@ namespace Presentation
         {
             try
             {
-            AddNewItem(new Item
-             {
-                CardNumber=creditCard.CardNumber, 
-                ExpirationMonth= creditCard.ExpirationMonth, 
-                ExpirationYear=creditCard.ExpirationYear, 
-                HolderName=creditCard.CardNumber
-                }
-            );
+                AddNewItem(new Item
+                        {
+                            CardNumber=creditCard.CardNumber, 
+                            ExpirationMonth= creditCard.ExpirationMonth, 
+                            ExpirationYear=creditCard.ExpirationYear, 
+                            HolderName=creditCard.CardNumber
+                        }
+                    );
+
+                new RabbitMQPublisher().Publish();
             }
             catch (Exception ex)
             {
