@@ -21,7 +21,7 @@ public class RabbitMQPublisher
         using (var channel = connection.CreateModel())
         {
 
-            channel.QueueDeclare(queue: "testQueue",
+            channel.QueueDeclare(queue: "toAutorize",
                                  durable: false,
                                  exclusive: false,
                                  autoDelete: false,

@@ -48,6 +48,35 @@ services:
       - RABBITMQ_DEFAULT_USER=user
       - RABBITMQ_DEFAULT_PASS=password
 
+  autorizer:
+    build:
+      context: ./Autorizer
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8080"
+    volumes:
+      - ./Autorizer:/app/Autorizer
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - rabbitmq
+  
+  notifier:
+    build:
+      context: ./Notifier
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8080"
+    volumes:
+      - ./Notifier:/app/Notifier
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - rabbitmq
+
 volumes:
   postgres_data:
 
+networks:
+  default:
+    driver: bridge
