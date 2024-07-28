@@ -18,16 +18,23 @@ namespace Presentation
         [HttpPost]
         public IActionResult PostCreditCard([FromBody] CreditCard creditCard)
         {
+            var transactionId = Guid.NewGuid();
             try
             {
-                AddNewItem(new Item
+               transactionId = AddNewItem(new Transaction
                         {
-                            CardNumber=creditCard.CardNumber, 
-                            ExpirationMonth= creditCard.ExpirationMonth, 
-                            ExpirationYear=creditCard.ExpirationYear, 
-                            HolderName=creditCard.CardNumber
+                            CardNumber=creditCard.CardNumber,  
+                            ExpirationDate=creditCard.ExpirationDate, 
+                            HolderName=creditCard.HolderName,
+                            SecurityCode=creditCard.SecurityCode,
+                            Amount=creditCard.Amount,
+                            Currency=creditCard.Currency,
+                            TransactionDate=DateTime.UtcNow,
+                            Status="Pending",
                         }
                     );
+
+                Console.WriteLine($"Transaction: {transactionId} added to the database");
 
                 new RabbitMQPublisher().Publish();
             }
@@ -35,14 +42,15 @@ namespace Presentation
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
-            return Ok(new { message = "Credit card processed successfully!", creditCard });
+            return Ok(new { message = $"Credit card processed successfully! transaction:{transactionId}", creditCard });
 
         }
 
-        public void AddNewItem(Item newItem)
+        public Guid AddNewItem(Transaction newItem)
         {
-            _context.Items.Add(newItem);
+            _context.Transactions.Add(newItem);
             _context.SaveChanges();
+            return newItem.Id;
         }
     }
 }

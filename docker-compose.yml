@@ -37,13 +37,14 @@ services:
       - "80:80"
     depends_on:
       - db
-
+  
   rabbitmq:
     image: "rabbitmq:3-management"
     hostname: "rabbitmq"
     ports:
       - "15672:15672"
       - "5672:5672"
+      - "15692:15692"
     environment:
       - RABBITMQ_DEFAULT_USER=user
       - RABBITMQ_DEFAULT_PASS=password
@@ -53,7 +54,7 @@ services:
       context: ./Autorizer
       dockerfile: Dockerfile
     ports:
-      - "8001:8080"
+      - "8003:8080"
     volumes:
       - ./Autorizer:/app/Autorizer
     environment:
@@ -66,7 +67,7 @@ services:
       context: ./Notifier
       dockerfile: Dockerfile
     ports:
-      - "8001:8080"
+      - "8002:8080"
     volumes:
       - ./Notifier:/app/Notifier
     environment:

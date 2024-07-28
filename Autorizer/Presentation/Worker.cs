@@ -37,7 +37,7 @@ public class Worker : BackgroundService
                 _connection = factory.CreateConnection();
                 _channel = _connection.CreateModel();
 
-                _channel.QueueDeclare(queue: "testQueue", durable: false, exclusive: false, autoDelete: false, arguments: null);
+                _channel.QueueDeclare(queue: _queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
                 _consumer = new EventingBasicConsumer(_channel);
                 _consumer.Received += ReceivedHandler;
@@ -78,7 +78,9 @@ public class Worker : BackgroundService
     private void ReceivedHandler(object? sender, BasicDeliverEventArgs ea)
     {
         var tag = ea.DeliveryTag;
+        _logger.LogInformation("###########################################################################################");
         _logger.LogInformation("-------------------Received message. tag: {tag}  at: {time}-------------", tag, DateTimeOffset.Now);
+        _logger.LogInformation("###########################################################################################");
         _channel.BasicAck(tag, false);
     }
 }

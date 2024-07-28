@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 public class TransactionContext : DbContext
 {
-    public DbSet<Item> Items { get; set; }
+    public DbSet<Transaction> Transactions { get; set; }
 
     public TransactionContext(DbContextOptions<TransactionContext> options)
         : base(options)
@@ -11,18 +11,21 @@ public class TransactionContext : DbContext
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        // Replace with your connection string
         optionsBuilder.UseNpgsql("Host=db; Port=5432; Database=mydb; Username=user; Password=password;");
     }
 }
 
-public class Item
+public class Transaction
 {
     public Guid Id { get; set; } = Guid.NewGuid(); 
-
     public string CardNumber { get; set; }
-    public string ExpirationMonth { get; set; }
-    public string ExpirationYear { get; set; }
+    public string ExpirationDate { get; set; }
     public string HolderName { get; set; }
     public string SecurityCode { get; set; }
+
+    public decimal Amount { get; set; }
+    public string Currency { get; set; }
+    public DateTime TransactionDate { get; set; }
+    public string Status { get; set; }
+
 }

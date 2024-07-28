@@ -6,7 +6,7 @@ public class RabbitMQPublisher
 {
     public void Publish()
     {
-
+        var queueName = "toAutorize";
         try
         {
             Console.WriteLine(" Hola que hace ....");
@@ -21,8 +21,8 @@ public class RabbitMQPublisher
         using (var channel = connection.CreateModel())
         {
 
-            channel.QueueDeclare(queue: "toAutorize",
-                                 durable: false,
+            channel.QueueDeclare(queue: queueName,
+                                 durable: true,
                                  exclusive: false,
                                  autoDelete: false,
                                  arguments: null);
@@ -33,7 +33,7 @@ public class RabbitMQPublisher
 
 
             channel.BasicPublish(exchange: "",
-                                 routingKey: "testQueue",
+                                 routingKey: queueName,
                                  basicProperties: null,
                                  body: body);
             Console.WriteLine(" [x] Sent {0}", message);

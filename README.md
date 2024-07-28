@@ -8,11 +8,14 @@
 ```
 curl --request POST \
   --url http://localhost:8000/payment \
+  --header "Content-Type: application/json" \
   --data '{
     "cardNumber": "1234567890123456",
-    "expirationMonth": "12",
-    "expirationYear": "2023",
+    "expirationDate": "1223",
     "holderName": "John Doe",
-    "securityCode": "123"
+    "securityCode": "123",
+    "amount":"100",
+    "currency":"USD"
 }'
 ```
+
