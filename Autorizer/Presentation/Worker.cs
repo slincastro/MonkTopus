@@ -83,11 +83,11 @@ public class Worker : BackgroundService
 
         var body = ea.Body.ToArray();
         var message = Encoding.UTF8.GetString(body);
-        var transaction = JsonConvert.DeserializeObject<Transaction>(message);
-        new RabbitMQPublisher().Publish(transaction);
-
-
+        
         _logger.LogInformation("Message: {message}", message);
         _logger.LogInformation("###########################################################################################");
+
+        var transaction = JsonConvert.DeserializeObject<Transaction>(message);
+        new RabbitMQPublisher().Publish(transaction);
     }
 }
