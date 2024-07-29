@@ -1,14 +1,14 @@
 version: '3.8'
 
 services:
-  app:
+  orchestrator:
     build:
-      context: ./Receiver
+      context: ./Orchestrator
       dockerfile: Dockerfile
     ports:
       - "8000:8080"
     volumes:
-      - ./Receiver:/app/Receiver
+      - ./Orchestrator:/app/Orchestrator
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
