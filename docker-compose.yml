@@ -75,6 +75,25 @@ services:
     depends_on:
       - rabbitmq
 
+  auditor:
+    build:
+      context: ./Auditor
+      dockerfile: Dockerfile
+    ports:
+      - "8004:8080"
+    volumes:
+      - ./Auditor:/app/Auditor
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - rabbitmq
+  
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+
 volumes:
   postgres_data:
 

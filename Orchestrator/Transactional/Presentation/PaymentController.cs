@@ -22,7 +22,8 @@ namespace Presentation
             {
                var transaction = new Transaction
                 {
-                    Id = payment.TransactionId,
+                    Id = transactionId,
+                    TransactionId = payment.TransactionId,
                     CardNumber = payment.CardNumber,  
                     ExpirationDate = payment.ExpirationDate, 
                     HolderName = payment.HolderName,

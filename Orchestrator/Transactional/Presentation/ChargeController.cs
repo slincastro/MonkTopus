@@ -36,7 +36,10 @@ namespace Presentation
 
                 Console.WriteLine($"Transaction: {transactionId} added to the database");
 
-                new RabbitMQPublisher().Publish(transaction);
+                var publisher = new RabbitMQPublisher();
+
+                publisher.Publish(transaction);
+                publisher.Publish(transaction,"toAudit");
             }
             catch (Exception ex)
             {

@@ -2,13 +2,9 @@ using System;
 using System.Text;
 using RabbitMQ.Client;
 using Newtonsoft.Json;
-using Application.Domain;
 
 public class RabbitMQPublisher
 {
-    public void Publish(Transaction transaction){
-        Publish(transaction, transaction.Next);
-    }
     public void Publish(Transaction transaction, string queueName)
     {
         try
