@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class Transaction
 {
     public Guid Id { get; set; } 
+    public Guid TransactionId { get; set; }
     public string CardNumber { get; set; }
     public string ExpirationDate { get; set; }
     public string HolderName { get; set; }

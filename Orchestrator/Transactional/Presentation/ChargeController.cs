@@ -5,36 +5,34 @@ namespace Presentation
 {
     [ApiController]
     [Route("[controller]")]
-    public class PaymentController : ControllerBase
+    public class ChargeController : ControllerBase
     {
         private readonly TransactionContext _context;
 
-        public PaymentController(TransactionContext context)
+        public ChargeController(TransactionContext context)
         {
             _context = context;
         }
 
         [HttpPost]
-        public IActionResult PostCreditCard([FromBody] Payment payment)
+        public IActionResult Charge([FromBody] Charge charge)
         {
             var transactionId = Guid.NewGuid();
+
             try
             {
                var transaction = new Transaction
                 {
-                    Id = payment.TransactionId,
-                    CardNumber = payment.CardNumber,  
-                    ExpirationDate = payment.ExpirationDate, 
-                    HolderName = payment.HolderName,
-                    SecurityCode = payment.SecurityCode,
-                    Amount = payment.Amount,
-                    Currency = payment.Currency,
+                    Id = Guid.NewGuid(),
+                    TransactionId = transactionId,
+                    Amount = charge.Amount,
+                    Currency = charge.Currency,
                     TransactionDate = DateTime.UtcNow,
-                    Status = TransactionEvents.AwaitingPaymentProcessor.ToString(),
+                    Status = TransactionEvents.Generated.ToString(),
                     Next = "toNotify"
                 };
 
-                 transactionId = AddNewItem(transaction);
+                transactionId = AddNewItem(transaction);
 
                 Console.WriteLine($"Transaction: {transactionId} added to the database");
 
@@ -44,7 +42,7 @@ namespace Presentation
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
-            return Ok(new { message = $"Credit card processed successfully! transaction:{transactionId}", payment });
+            return Ok(new { message = $"Credit card processed successfully! transaction:{transactionId}", charge });
 
         }
 

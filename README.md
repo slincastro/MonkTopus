@@ -3,7 +3,20 @@
 - Ejecutar:
 `docker-compose up`
 
-- lanzar una peticion:
+- Crear una peticion de cobro:
+
+```
+curl --request POST \
+  --url http://localhost:8000/charge \
+  --header "Content-Type: application/json" \
+  --data '{
+    "amount":"100",
+    "currency":"USD",
+    "ClientEmail":"client@bank.com"
+}'
+```
+
+- lanzar una peticion de pago:
 
 ```
 curl --request POST \
