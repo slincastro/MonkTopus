@@ -2,13 +2,12 @@ using System;
 using System.Text;
 using RabbitMQ.Client;
 using Newtonsoft.Json;
-using Application.Domain;
 
 public class RabbitMQPublisher
 {
     public void Publish(Transaction transaction)
     {
-        var queueName = "toAutorize";
+        var queueName = transaction.Next;
         try
         {
     

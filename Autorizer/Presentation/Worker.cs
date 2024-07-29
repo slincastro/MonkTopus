@@ -1,9 +1,7 @@
-// This source code is dual-licensed under the Apache License, version
-// 2.0, and the Mozilla Public License, version 2.0.
-// Copyright (c) 2007-2020 VMware, Inc.
-
 namespace rabbitmq_backgroundservice;
 
+using Newtonsoft.Json;
+using System.Text;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -80,7 +78,16 @@ public class Worker : BackgroundService
         var tag = ea.DeliveryTag;
         _logger.LogInformation("###########################################################################################");
         _logger.LogInformation("-------------------Received message. tag: {tag}  at: {time}-------------", tag, DateTimeOffset.Now);
-        _logger.LogInformation("###########################################################################################");
+        
         _channel.BasicAck(tag, false);
+
+        var body = ea.Body.ToArray();
+        var message = Encoding.UTF8.GetString(body);
+        var transaction = JsonConvert.DeserializeObject<Transaction>(message);
+        new RabbitMQPublisher().Publish(transaction);
+
+
+        _logger.LogInformation("Message: {message}", message);
+        _logger.LogInformation("###########################################################################################");
     }
 }

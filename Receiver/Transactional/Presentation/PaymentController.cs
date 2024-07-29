@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Application.Domain;
-using System.Transactions;
 
 namespace Presentation
 {
@@ -21,22 +20,25 @@ namespace Presentation
             var transactionId = Guid.NewGuid();
             try
             {
-               transactionId = AddNewItem(new Transaction
-                        {
-                            CardNumber=creditCard.CardNumber,  
-                            ExpirationDate=creditCard.ExpirationDate, 
-                            HolderName=creditCard.HolderName,
-                            SecurityCode=creditCard.SecurityCode,
-                            Amount=creditCard.Amount,
-                            Currency=creditCard.Currency,
-                            TransactionDate=DateTime.UtcNow,
-                            Status="Pending",
-                        }
-                    );
+               var transaction = new Transaction
+                {
+                    Id = transactionId,
+                    CardNumber = creditCard.CardNumber,  
+                    ExpirationDate = creditCard.ExpirationDate, 
+                    HolderName = creditCard.HolderName,
+                    SecurityCode = creditCard.SecurityCode,
+                    Amount = creditCard.Amount,
+                    Currency = creditCard.Currency,
+                    TransactionDate = DateTime.UtcNow,
+                    Status = TransactionEvents.Generated.ToString(),
+                    Next = "toNotify"
+                };
+
+                transactionId = AddNewItem(transaction);
 
                 Console.WriteLine($"Transaction: {transactionId} added to the database");
 
-                new RabbitMQPublisher().Publish();
+                new RabbitMQPublisher().Publish(transaction);
             }
             catch (Exception ex)
             {

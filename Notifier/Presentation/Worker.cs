@@ -9,7 +9,7 @@ using RabbitMQ.Client.Events;
 
 public class Worker : BackgroundService
 {
-    private const string _queueName = "toAutorize";
+    private const string _queueName = "toNotify";
     private readonly TimeSpan _stoppingCheckInterval = TimeSpan.FromSeconds(5);
     private readonly ILogger<Worker> _logger;
     private readonly IConnection _connection;
