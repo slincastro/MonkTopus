@@ -10,35 +10,33 @@ public class RabbitMQPublisher
         var queueName = transaction.Next;
         try
         {
-    
-        var factory = new ConnectionFactory()
-                                        {
-                                            HostName = "rabbitmq",
-                                            UserName = "user",
-                                            Password = "password"
-                                        };
+            var factory = new ConnectionFactory()
+                                            {
+                                                HostName = "rabbitmq",
+                                                UserName = "user",
+                                                Password = "password"
+                                            };
 
-        using (var connection = factory.CreateConnection())
-        using (var channel = connection.CreateModel())
-        {
+            using (var connection = factory.CreateConnection())
+            using (var channel = connection.CreateModel())
+            {
 
-            channel.QueueDeclare(queue: queueName,
-                                 durable: true,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
+                channel.QueueDeclare(queue: queueName,
+                                    durable: true,
+                                    exclusive: false,
+                                    autoDelete: false,
+                                    arguments: null);
 
+                var message = JsonConvert.SerializeObject(transaction);
+                var body = Encoding.UTF8.GetBytes(message);
 
-            var message = JsonConvert.SerializeObject(transaction);
-            var body = Encoding.UTF8.GetBytes(message);
-
-
-            channel.BasicPublish(exchange: "",
-                                 routingKey: queueName,
-                                 basicProperties: null,
-                                 body: body);
-            Console.WriteLine(" [x] Sent {0}", message);
-        }}
+                channel.BasicPublish(exchange: "",
+                                    routingKey: queueName,
+                                    basicProperties: null,
+                                    body: body);
+                Console.WriteLine(" [x] Sent {0}", message);
+            }
+        }
         catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
