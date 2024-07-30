@@ -5,9 +5,11 @@ using Newtonsoft.Json;
 
 public class RabbitMQPublisher
 {
-    public void Publish(Transaction transaction)
+    public void Publish(Transaction transaction){
+        Publish(transaction, transaction.Next);
+    }
+    public void Publish(Transaction transaction, string queueName)
     {
-        var queueName = transaction.Next;
         try
         {
             var factory = new ConnectionFactory()
@@ -34,6 +36,7 @@ public class RabbitMQPublisher
                                     routingKey: queueName,
                                     basicProperties: null,
                                     body: body);
+                                    
                 Console.WriteLine(" [x] Sent {0}", message);
             }
         }

@@ -88,6 +88,10 @@ public class Worker : BackgroundService
         _logger.LogInformation("###########################################################################################");
 
         var transaction = JsonConvert.DeserializeObject<Transaction>(message);
-        new RabbitMQPublisher().Publish(transaction);
+                        
+        var publisher = new RabbitMQPublisher();
+        publisher.Publish(transaction);
+        transaction.Status = "Autorized";
+        publisher.Publish(transaction,"toAudit");
     }
 }
