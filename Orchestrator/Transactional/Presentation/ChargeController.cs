@@ -45,7 +45,7 @@ namespace Presentation
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
-            return Ok(new { message = $"Credit card processed successfully! transaction:{transactionId}", charge });
+            return Ok(new { message = $"Credit card processed successfully!", transactionId, charge });
 
         }
 

@@ -76,7 +76,11 @@ public class Worker : BackgroundService
 
     private void ReceivedHandler(object? sender, BasicDeliverEventArgs ea)
     {   
-        var mongoStorer = new MongoStorer(_mongoDbSettings.ConnectionString, _mongoDbSettings.DatabaseName, _mongoDbSettings.CollectionName);
+         var connectionString = "mongodb://mongo:27017";
+        var databaseName = "TransactionDb";
+        var collectionName = "Transactions";
+
+        var mongoStorer = new MongoStorer(connectionString, databaseName, collectionName);
 
         var tag = ea.DeliveryTag;
 
@@ -99,7 +103,8 @@ public class Worker : BackgroundService
                 {
                     TransactionId = transaction.TransactionId,
                     Date = DateTime.Now.ToString("o"), 
-                    Payload = message
+                    Payload = message,
+                    Status = transaction.Status
                 });        
         }
         catch (Exception ex)

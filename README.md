@@ -33,3 +33,8 @@ curl --request POST \
 }'
 ```
 
+- Activate client 
+
+python3 -m venv myenv
+
+source myenv/bin/activate
