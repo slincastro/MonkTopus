@@ -4,6 +4,8 @@
 
 namespace rabbitmq_backgroundservice;
 
+using Newtonsoft.Json;
+using System.Text;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -84,5 +86,16 @@ public class Worker : BackgroundService
         _logger.LogInformation("###########################################################################################");
         
         _channel.BasicAck(tag, false);
+
+        var body = ea.Body.ToArray();
+        var message = Encoding.UTF8.GetString(body);
+        
+        _logger.LogInformation("Message: {message}", message);
+
+        var transaction = JsonConvert.DeserializeObject<Transaction>(message);
+                        
+        var publisher = new RabbitMQPublisher();
+        transaction.Status = "Notified";
+        publisher.Publish(transaction,"toAudit");
     }
 }
