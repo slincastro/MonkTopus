@@ -7,8 +7,8 @@ public class Transaction
         [BsonElement("Id")]
         public Guid Id { get; set; }
 
-        [BsonElement("transactionId")]
-        public Guid TransactionId { get; set; }
+        [BsonElement("CorrelationId")]
+        public Guid CorrelationId { get; set; }
 
         [BsonElement("Date")]
         public string Date { get; set; }

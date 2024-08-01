@@ -1,9 +1,3 @@
-
-namespace Application.Domain;
-
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
-
 public class Transaction
 {
     public Guid Id { get; set; } 
@@ -16,8 +10,6 @@ public class Transaction
     public string Currency { get; set; }
     public DateTime TransactionDate { get; set; }
     public string Status { get; set; }
-
-    [NotMapped]
     public string Next {get; set;}
 
 }

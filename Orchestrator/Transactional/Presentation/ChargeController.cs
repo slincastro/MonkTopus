@@ -17,14 +17,14 @@ namespace Presentation
         [HttpPost]
         public IActionResult Charge([FromBody] Charge charge)
         {
-            var transactionId = Guid.NewGuid();
+            var correlationId = Guid.NewGuid();
 
             try
             {
                var transaction = new Transaction
                 {
                     Id = Guid.NewGuid(),
-                    TransactionId = transactionId,
+                    CorrelationId = correlationId,
                     Amount = charge.Amount,
                     Currency = charge.Currency,
                     TransactionDate = DateTime.UtcNow,
@@ -32,9 +32,9 @@ namespace Presentation
                     Next = "toNotify"
                 };
 
-                transactionId = AddNewItem(transaction);
+                correlationId = AddNewItem(transaction);
 
-                Console.WriteLine($"Transaction: {transactionId} added to the database");
+                Console.WriteLine($"Transaction: {correlationId} added to the database");
 
                 var publisher = new RabbitMQPublisher();
 
@@ -45,7 +45,7 @@ namespace Presentation
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
-            return Ok(new { message = $"Credit card processed successfully!", transactionId, charge });
+            return Ok(new { message = $"Credit card processed successfully!", correlationId, charge });
 
         }
 
@@ -53,7 +53,7 @@ namespace Presentation
         {
             _context.Transactions.Add(newItem);
             _context.SaveChanges();
-            return newItem.Id;
+            return newItem.CorrelationId;
         }
     }
 }

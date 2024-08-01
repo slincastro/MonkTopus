@@ -23,7 +23,7 @@ namespace Presentation
                var transaction = new Transaction
                 {
                     Id = transactionId,
-                    TransactionId = payment.TransactionId,
+                    CorrelationId = payment.CorrelationId,
                     CardNumber = payment.CardNumber,  
                     ExpirationDate = payment.ExpirationDate, 
                     HolderName = payment.HolderName,
@@ -55,7 +55,7 @@ namespace Presentation
         {
             _context.Transactions.Add(newItem);
             _context.SaveChanges();
-            return newItem.Id;
+            return newItem.CorrelationId;
         }
     }
 }

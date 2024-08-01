@@ -26,11 +26,14 @@ headers = {
 }
 
 transaction_ids = []
-for _ in range(3):
+for _ in range(100):
     time.sleep(1)
     response = requests.post(charge_url, headers=headers, data=json.dumps(charge_data))
+    print("Transaccion enviada")
     if response.status_code == 200:
-        transaction_ids.append(response.json().get("transactionId"))
+        transaction_ids.append(response.json().get("correlationId"))
+        correlational = response.json().get("correlationId")
+        print(f"Transaccion recibida ok :{correlational}")
 
     
 
@@ -38,6 +41,7 @@ for _ in range(3):
 for transaction_id in transaction_ids:
     time.sleep(1)
     payment_data = payment_data_template.copy()
-    payment_data["TransactionId"] = transaction_id
+    payment_data["correlationId"] = transaction_id
+    print("Pago enviado")
     response = requests.post(payment_url, headers=headers, data=json.dumps(payment_data))
     print(f"Payment request for TransactionId {transaction_id}: {response.status_code}, {response.text}")

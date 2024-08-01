@@ -24,7 +24,7 @@ curl --request POST \
   --header "Content-Type: application/json" \
   --data '{
     "cardNumber": "1234567890123456",
-    "TransactionId":"1be7fbbc-b64b-4853-ba4b-9dba6046119c",
+    "correlationId":"1be7fbbc-b64b-4853-ba4b-9dba6046119c",
     "expirationDate": "1223",
     "holderName": "John Doe",
     "securityCode": "123",

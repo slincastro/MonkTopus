@@ -2,7 +2,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS "Transactions" (
     "Id" UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    "TransactionId" UUID DEFAULT uuid_generate_v4(),
+    "CorrelationId" UUID DEFAULT uuid_generate_v4(),
     "CardNumber" VARCHAR(255),
     "ExpirationDate" VARCHAR(10),
     "HolderName" VARCHAR(255),

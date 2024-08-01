@@ -97,11 +97,11 @@ public class Worker : BackgroundService
         {
             var transaction = JsonConvert.DeserializeObject<Transaction>(message);
 
-            _logger.LogInformation("Transaction: {transaction}", transaction.TransactionId);
+            _logger.LogInformation("Transaction: {transaction}", transaction.CorrelationId);
 
             mongoStorer.InsertTransaction(new Transaction
                 {
-                    TransactionId = transaction.TransactionId,
+                    CorrelationId = transaction.CorrelationId,
                     Date = DateTime.Now.ToString("o"), 
                     Payload = message,
                     Status = transaction.Status
