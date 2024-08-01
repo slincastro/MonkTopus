@@ -3,7 +3,7 @@ using System.Text;
 using RabbitMQ.Client;
 using Newtonsoft.Json;
 
-public class RabbitMQPublisher
+public class RabbitMQPublisher : IPublisher
 {
     public void Publish(Transaction transaction){
         Publish(transaction, transaction.Next);

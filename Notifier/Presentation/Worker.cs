@@ -20,6 +20,7 @@ public class Worker : BackgroundService
     private readonly string _consumerTag;
     private readonly int _retryCount = 20;
     private readonly int _retryDelay = 10000;
+    private readonly IPublisher _publisher;
 
     public Worker(ILogger<Worker> logger)
     {
@@ -94,8 +95,7 @@ public class Worker : BackgroundService
 
         var transaction = JsonConvert.DeserializeObject<Transaction>(message);
                         
-        var publisher = new RabbitMQPublisher();
-        transaction.Status = "Notified";
-        publisher.Publish(transaction,"toAudit");
+        transaction.Status = $"Notified - {transaction.Status}";
+        _publisher.Publish(transaction,"toAudit");
     }
 }
